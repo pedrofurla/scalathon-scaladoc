@@ -1,0 +1,3 @@
+classpath
+
+-Xbootclasspath/p:C:\dev\langs\scala\scala-svn\scala-auth\local\lib\scala-library.jar -Xbootclasspath/p:C:\dev\langs\scala\scala-svn\scala-auth\local\lib\scala-compiler.jar

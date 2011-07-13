@@ -1,0 +1,46 @@
+digraph ScaladocFlow {
+node [shape=ellipse];
+rankdir=TB;
+layout=dot;
+clusterrank=local;
+ranksep=.75
+
+
+ScalaDoc [shape=box,label="ScalaDoc Tool"];
+Global;					
+
+ScalaDoc -> DocFactory // 1
+DocFactory -> Global   // 2
+
+subgraph cluster_doc {
+	label="scala.tools.nsc.doc"		
+	
+	//DocFactory -> cluster_model; // 3
+	DocFactory 
+}
+
+subgraph cluster_model {
+	label="scala.tools.nsc.doc.model"
+	
+	ModelFactory -> {CommentFactory TreeFactory}
+}
+		
+subgraph cluster_html {
+	label="scala.tools.nsc.doc.html"
+		
+	Page
+	HtmlPage
+	HtmlFactory
+}
+DocFactory -> ModelFactory
+DocFactory -> HtmlFactory
+
+/*
+	subgraph clusterC {
+		label=""
+	}
+*/	
+
+label="Very high level view of Scaladoc flow"
+overlap=false
+}

@@ -1,0 +1,72 @@
+flow
+
+Scaladoc.scala:
+
+	new DocFactory(reporter, docSettings) document command.files
+
+DocFactory.scala:
+
+	object compiler extends Global
+	
+	def makeUniverse(files: List[String]): Option[Universe]
+		val modelFactory = (
+	      new { override val global: compiler.type = compiler }
+	        with model.ModelFactory(compiler, settings)
+	        with model.comment.CommentFactory
+	        with model.TreeFactory
+	  
+	  modelFactory.makeModel
+
+	def document(files: List[String]): Unit
+		val universe = makeUniverse(files) getOrElse { throw NoCompilerRunException }
+    universer setUniverse universe
+    
+    docletInstance match {
+      case indexer: Indexer => indexer setIndex model.IndexModelFactory.makeIndex(universe)
+      case _                => ()
+    }
+    
+    new html.HtmlFactory(universe, index).generate (Na verdade dentro do Doclet)
+    
+ModelFactory.scala:
+
+	def makeModel: Option[Universe] = {
+    val universe = new Universe { thisUniverse =>
+      thisFactory.universe = thisUniverse
+      val settings = thisFactory.settings
+      private val rootPackageMaybe = makeRootPackage
+      val rootPackage = rootPackageMaybe getOrElse null
+    }  
+    universe
+    
+  abstract class MemberImpl(...) extends EntityImpl(...) with MemberEntity
+    lazy val comment =
+      if (inTpl == null) None else thisFactory.comment(sym, inTpl)
+  
+CommentFactory:
+	
+	def comment(sym: global.Symbol, inTpl: => DocTemplateImpl): Option[Comment]
+		defineComment(sym, inTpl)
+	
+	def defineComment(sym: global.Symbol, inTpl: => DocTemplateImpl):Option[Comment]
+		Some(createComment( body0 = tplComment.constructor,
+                            throws0 = tplComment.throws,
+                            valueParams0 = tplComment.valueParams,
+                            typeParams0 = tplComment.typeParams,
+                            deprecated0 = tplComment.deprecated
+                            ))
+    
+    OR
+                            
+		val rawComment = global.expandedDocComment(sym, inTpl.sym).trim // Variable substitutions
+      if (rawComment != "") {
+        val c = parse(rawComment, global.rawDocComment(sym), global.docCommentPos(sym)) // global.rawDocComment(sym) is the source string
+        Some(c)
+      }
+      else None
+      
+    protected def parse(comment: String, src: String, pos: Position): Comment
+    	def parse0(...) // deal with CodeBlocks,SymbolTag,SimpleTag
+    	
+    	createComment (body0 = Some(parseWiki(docBody, pos)),...
+    		
