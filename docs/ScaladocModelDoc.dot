@@ -1,0 +1,13 @@
+digraph ScaladocModel {
+      node [shape=box];
+      rankdir=BT;
+    
+    MemberEntity -> Entity;
+    NonTemplateMemberEntity -> MemberEntity;
+    TemplateEntity -> Entity;
+    DocTemplateEntity -> TemplateEntity;
+    DocTemplateEntity -> MemberEntity;
+    NoDocTemplate -> TemplateEntity;
+
+
+overlap=false}

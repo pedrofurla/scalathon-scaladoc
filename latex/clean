@@ -1,1 +1,1 @@
-rm *.pdf *.toc *.aux *.gz *.out *.log
+rm *.pdf *.toc *.aux *.gz *.out *.log *.nav *.vrb *.snm

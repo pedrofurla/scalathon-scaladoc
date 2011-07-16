@@ -7,10 +7,10 @@ ranksep=.75
 
 
 ScalaDoc [shape=box,label="ScalaDoc Tool"];
-Global;					
+//Global;
 
 ScalaDoc -> DocFactory // 1
-DocFactory -> Global   // 2
+//DocFactory -> Global   // 2
 
 subgraph cluster_doc {
 	label="scala.tools.nsc.doc"		
@@ -27,10 +27,8 @@ subgraph cluster_model {
 		
 subgraph cluster_html {
 	label="scala.tools.nsc.doc.html"
-		
-	Page
-	HtmlPage
-	HtmlFactory
+
+	HtmlFactory -> { Template Index }
 }
 DocFactory -> ModelFactory
 DocFactory -> HtmlFactory

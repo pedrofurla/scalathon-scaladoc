@@ -23,7 +23,8 @@ object DotView {
     def isDefinedAt(owner:TemplateEntity) = dte.inDefinitionTemplates.isEmpty || dte.inDefinitionTemplates.head == owner
   }
 
-  def filter(e:Entity):Boolean = ! fqnExclusions.contains(e.qualifiedName)
+  def filter(e:Entity):Boolean = (!fqnExclusions.contains(e.qualifiedName))
+  def filter2(e:Entity) = e.inTemplate.qualifiedName == "scala.tools.nsc.doc.model" //&& e.inTemplate.qualifiedName!="scala.tools.nsc.doc.model.comment"
 
   def makeDot(universe: Universe): String = {
 
@@ -41,16 +42,16 @@ object DotView {
               gather(tpl)
             case tpl: Class =>
               println(qualifiedDefinitionName(tpl))
-              tpl.parents filter (filter) foreach { x=>println("\t"+qualifiedDefinitionName(x)) }
-              directedNodes(tpl,tpl.parents filter (filter)) + gather(tpl)
+              tpl.parents filter (x => filter(x) && filter2(x)) foreach { x=>println("\t"+qualifiedDefinitionName(x)) }
+              directedNodes(tpl,tpl.parents filter (x => filter(x) && filter2(x))) + gather(tpl)
             case tpl: Trait =>
               println(qualifiedDefinitionName(tpl))
-              tpl.parents filter (filter) foreach { x=>println("\t"+qualifiedDefinitionName(x)) }
-              directedNodes(tpl,tpl.parents filter (filter)) + gather(tpl)
+              tpl.parents filter (x => filter(x) && filter2(x)) foreach { x=>println("\t"+qualifiedDefinitionName(x)) }
+              directedNodes(tpl,tpl.parents filter (x => filter(x) && filter2(x))) + gather(tpl)
             case tpl: SDObject =>
               println(qualifiedDefinitionName(tpl))
-              tpl.parents filter (filter) foreach { x=>println("\t"+qualifiedDefinitionName(x)) }
-              directedNodes(tpl,tpl.parents filter (filter)) + gather(tpl)
+              tpl.parents filter (x => filter(x) && filter2(x)) foreach { x=>println("\t"+qualifiedDefinitionName(x)) }
+              directedNodes(tpl,tpl.parents filter (x => filter(x) && filter2(x))) + gather(tpl)
             case x @ _ => ""
           }) filter {_ != ""} mkString("\n")
 
@@ -70,10 +71,13 @@ object DotView {
   def main(args:Array[String]):Unit = {
     import scala.tools.nsc.io._
 
-    val projectHome = "C:\\dev\\langs\\scala\\projects\\scalathon-scaladoc"
-    val dotExe = "G:\\Program Files (x86)\\Graphviz2.26.3\\bin\\dot"
-    val files = scalaFiles("C:/dev/langs/scala/projects/scala-doc-prj-svn/src") filter {_.name == "Entity.scala"}
-    val dotFile =  projectHome + "\\out.dot"
+    val projectHome = "/Users/pedrofurla/dev/projects/scalathon-scaladoc"
+    val dotExe = "/usr/local/bin/dot"
+
+    val scalas = "Entity.scala" :: "Body.scala" :: "Comment.scala" :: Nil
+
+    val files = scalaFiles("/Users/pedrofurla/dev/projects/scala-doc-prj-svn/src") filter {scalas contains _.name   }
+    val dotFile =  projectHome + "/out.dot"
     val graphName = "ScaladocModel"
 
 		val universe = makeDot(docUniverse(files))
@@ -84,7 +88,7 @@ object DotView {
     import scala.sys.process._
     val p = Process(dotExe,"-Tpng" :: Nil)
     val is = new ByteArrayInputStream(graph.getBytes("UTF-8"))
-    val pro = (p #< is #> new JFile(projectHome + "\\"+graphName+".png")).run
+    val pro = (p #< is #> new JFile(projectHome + "/"+graphName+".png")).run
     println(pro.exitValue)
 	}
 }

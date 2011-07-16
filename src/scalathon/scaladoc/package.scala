@@ -29,9 +29,6 @@ package object scaladoc {
     val reporter = new scala.tools.nsc.reporters.ConsoleReporter(settings)
     val g = new Global(settings, reporter)
     (new SimpleModelFactory(g, settings) with CommentFactory with doc.model.TreeFactory)
-  }
-
-
 
   def nature2string(e : Entity) =
     e match {

@@ -1,0 +1,27 @@
+digraph ScaladocModel {
+      node [shape=box];
+      rankdir=BT;
+    
+
+    HigherKinded
+    ParameterEntity
+    AliasType -> HigherKinded;
+    Def ;
+    Def -> HigherKinded;
+    Class -> Trait;
+    Class -> HigherKinded;
+    ValueParam -> ParameterEntity;
+    TypeParam -> ParameterEntity;
+    TypeParam -> HigherKinded;
+    Trait -> HigherKinded;
+    AbstractType -> HigherKinded;
+
+
+    Annotation
+    Constructor
+    Object
+    Package -> Object;
+    RootPackage -> Package;
+
+
+overlap=false}
