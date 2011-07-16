@@ -22,6 +22,8 @@ package object scaladoc {
 
   def document(files:List[File],outPath:String) = {
     val docCompiler = new DocCompiler(files) {
+      docSettings.embeddedDefaults
+      docSettings.usejavacp.value = true
       override val command = new CompilerCommand(
         "-d" :: outPath :: (files.map {_.path}), docSettings)
     }
