@@ -12,19 +12,8 @@ object DotView {
 
   val fqnExclusions = "scala.Any" :: "scala.AnyRef" :: "scala.AnyVal" :: Nil
 
-  implicit def memberOps(m:MemberEntity) = new {
-    /** Is this MemberEntity defined locally? */
-    def isLocal = m.inDefinitionTemplates.isEmpty || m.inDefinitionTemplates.head == m.inTemplate
-  }
-  implicit def docTemplOps(dte:DocTemplateEntity) = new {
-    /** Returns a ordered List of entities extended directly */
-    def parents:List[TemplateEntity] = dte.parentType.map { _.refEntity.map { x => x._2._1 } toList } getOrElse List.empty
-    /** Is this MemberEntity defined locally in relation to owner? */
-    def isDefinedAt(owner:TemplateEntity) = dte.inDefinitionTemplates.isEmpty || dte.inDefinitionTemplates.head == owner
-  }
-
   def filter(e:Entity):Boolean = (!fqnExclusions.contains(e.qualifiedName))
-  def filter2(e:Entity) = e.inTemplate.qualifiedName == "scala.tools.nsc.doc.model" //&& e.inTemplate.qualifiedName!="scala.tools.nsc.doc.model.comment"
+  def filter2(e:Entity) = e.inTemplate.qualifiedName == "scala.tools.nsc.doc.model.comment" //&& e.inTemplate.qualifiedName!="scala.tools.nsc.doc.model.comment"
 
   def makeDot(universe: Universe): String = {
 
@@ -71,14 +60,13 @@ object DotView {
   def main(args:Array[String]):Unit = {
     import scala.tools.nsc.io._
 
-    val projectHome = "/Users/pedrofurla/dev/projects/scalathon-scaladoc"
     val dotExe = "/usr/local/bin/dot"
 
     val scalas = "Entity.scala" :: "Body.scala" :: "Comment.scala" :: Nil
 
-    val files = scalaFiles("/Users/pedrofurla/dev/projects/scala-doc-prj-svn/src") filter {scalas contains _.name   }
-    val dotFile =  projectHome + "/out.dot"
-    val graphName = "ScaladocModel"
+    val files = scalaFiles(scalaSourcesPath+"/src") filter {scalas contains _.name   }
+    val dotFile =  scalathonPath + "/output/out.dot"
+    val graphName = "ScaladocWikiModel"
 
 		val universe = makeDot(docUniverse(files))
 
@@ -88,7 +76,7 @@ object DotView {
     import scala.sys.process._
     val p = Process(dotExe,"-Tpng" :: Nil)
     val is = new ByteArrayInputStream(graph.getBytes("UTF-8"))
-    val pro = (p #< is #> new JFile(projectHome + "/"+graphName+".png")).run
+    val pro = (p #< is #> new JFile(scalathonPath + "/output/"+graphName+".png")).run
     println(pro.exitValue)
 	}
 }

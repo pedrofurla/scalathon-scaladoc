@@ -1,0 +1,18 @@
+digraph ScaladocWikiModel {
+      node [shape=box];
+      rankdir=BT;
+    
+Summary -> Inline;
+HtmlTag -> Inline;
+Text -> Inline;
+Monospace -> Inline;
+EntityLink -> Inline;
+Link -> Inline;
+Subscript -> Inline;
+Superscript -> Inline;
+Underline -> Inline;
+Bold -> Inline;
+Italic -> Inline;
+Chain -> Inline;
+
+ overlap=false}

@@ -134,55 +134,85 @@
 		\item Documentation
 		\item The wiki syntax
 		\end{itemize}
-	\item Attachable processors for these (almost there)
+	\item Attachable processors for these (possible already but not finished)
 	\end{itemize}
 \end{frame}
 
-\subsection{Model for Documentation}
-\begin{frame}{Model for Documentation} 
-	scala.tools.nsc.doc.Entity.scala:
-	\includegraphics[width=11cm]{../docs/ScaladocModelDoc.png} %
-\end{frame}
-
-
-\subsection{Model for Scala}
-\begin{frame}{Model for Scala}  
-	scala.tools.nsc.doc.Entity.scala:
-	\includegraphics[width=11cm]{../docs/ScaladocModelScala.png} %
-\end{frame}
-
-\subsection{Model for Wiki}
-\begin{frame}{Model for Wiki} 
-	
-\end{frame}
 
 \subsection{Inner Workings}
 \begin{frame}{Inner Workings} 
 	\includegraphics[width=11cm]{../docs/flow.png} 
 \end{frame}
 
-\section{How to Hacking it!}
-
-\subsection{Enviroment}
-\begin{frame}{Enviroment} 
-	
+\subsection{Model for Scala and Documentation}
+\begin{frame}{Model for Documentation} 
+	scala.tools.nsc.doc.model.Entity.scala:
+	\includegraphics[width=11cm]{../docs/ScaladocModelDoc.png} %
 \end{frame}
 
-\subsection{Running}
-\begin{frame}{Running} 
-	
+\begin{frame}{Model for Scala}  
+	scala.tools.nsc.doc.model.Entity.scala: 
+	\includegraphics[width=11cm]{../docs/ScaladocModelScala.png} %
 \end{frame}
 
-\subsection{A little help}
-\begin{frame}{A little help} 
-	
+\begin{frame}{It all together}  
+	scala.tools.nsc.doc.model.Entity.scala:
+	\includegraphics[width=11cm]{../docs/ScaladocModelFull.png} 
 \end{frame}
 
-\subsection{Examples}
-\begin{frame}{Examples} 
-	
+
+\subsection{Model for Wiki}
+\begin{frame}{Model for Wiki} 
+	scala.tools.nsc.doc.model.comment.Body.scala:
+	\includegraphics[width=11cm]{../docs/ScaladocWikiModel1.png} 
+
+	\includegraphics[width=11cm]{../docs/ScaladocWikiModel2.png} 
 \end{frame}
 
+\subsection{Official Info}
+\begin{frame}{Official Info} 
+	\begin{itemize}  
+		\item https://wiki.scala-lang.org/display/SW/Scaladoc
+		\item The compiler Scaladocs
+	\end{itemize}
+\end{frame}
+
+\section{Hacking Scaladoc!}
+
+\subsection{Begining}
+\begin{frame}{Begining} 
+	\begin{itemize}  
+	\item Clone https://github.com/pedrofurla/scalathon-scaladoc
+	\item Fix scalathon/scaladoc/package.scala: 
+	\item Look at scalathon.scaladoc.examples
+		\begin{itemize}  
+			\item Html.scala - will generate the html docs 
+			\item ParseComment.scala - Shows the structure of a parse comments
+			\item DotView.scala - generates a Graphviz file for the classes hierarchy
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\subsection{Things to hack}
+\begin{frame}{Things to hack} 
+	\begin{itemize}  
+	\item Method links
+	\item Context bounds
+	\item Some doclets (like @author) are not working, or implemented at all
+	\item Transform the model into UML
+	\item An index for implicits
+	\item Whatever Html/Javascript magic you want!
+	\end{itemize}
+\end{frame}
+
+\section{Reference}
+\begin{frame}{Reference} 
+	\begin{itemize}  
+		\item https://wiki.scala-lang.org/display/SW/Scaladoc
+		\item The compiler Scaladocs - http://www.scala-lang.org/node/212/docs/compiler click index.html
+		\item https://github.com/pedrofurla/scalathon-scaladoc
+	\end{itemize}
+\end{frame}
 
 \end{document}
 

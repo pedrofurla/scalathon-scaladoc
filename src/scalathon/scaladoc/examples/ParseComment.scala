@@ -1,7 +1,7 @@
 package scalathon.scaladoc
 package examples
 
-class ParseComment {
+object ParseComment {
 	def main(args:Array[String]) = {
 		val factory = modelFactory;
 		val doc = """

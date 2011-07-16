@@ -1,0 +1,13 @@
+digraph ScaladocWikiModel {
+      node [shape=box];
+      rankdir=BT;
+    
+
+HorizontalRule -> Block;
+DefinitionList -> Block;
+OrderedList -> Block;
+UnorderedList -> Block;
+Code -> Block;
+Paragraph -> Block;
+Title -> Block;
+ overlap=false}
