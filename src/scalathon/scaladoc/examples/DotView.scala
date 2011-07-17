@@ -13,7 +13,7 @@ object DotView {
   val fqnExclusions = "scala.Any" :: "scala.AnyRef" :: "scala.AnyVal" :: Nil
 
   def filter(e:Entity):Boolean = (!fqnExclusions.contains(e.qualifiedName))
-  def filter2(e:Entity) = e.inTemplate.qualifiedName == "scala.tools.nsc.doc.model.comment" //&& e.inTemplate.qualifiedName!="scala.tools.nsc.doc.model.comment"
+  def filter2(e:Entity) = true //e.inTemplate.qualifiedName == "scala.tools.nsc.doc.model.comment" //&& e.inTemplate.qualifiedName!="scala.tools.nsc.doc.model.comment"
 
   def makeDot(universe: Universe): String = {
 
@@ -28,6 +28,7 @@ object DotView {
         (for(m <- owner.members if m.isLocal && filter(m)) yield
           m match {
             case tpl: Package =>
+              qualifiedDefinitionName(tpl)
               gather(tpl)
             case tpl: Class =>
               println(qualifiedDefinitionName(tpl))
@@ -64,9 +65,11 @@ object DotView {
 
     val scalas = "Entity.scala" :: "Body.scala" :: "Comment.scala" :: Nil
 
-    val files = scalaFiles(scalaSourcesPath+"/src") filter {scalas contains _.name   }
+    //val files = scalaFiles(scalaSourcesPath+"/src") filter {scalas contains _.name   }
+    val files = scalaFiles(scalathonPath+"/samples") //filter {scalas contains _.name   }
+    println(files)
     val dotFile =  scalathonPath + "/output/out.dot"
-    val graphName = "ScaladocWikiModel"
+    val graphName = "Samples"
 
 		val universe = makeDot(docUniverse(files))
 
