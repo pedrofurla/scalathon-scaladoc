@@ -1,2 +1,2 @@
-A presentation and accompanying code on how to use Scaladoc2 as code exploration tool. The main example produces Graphviz diagrams of Scaladoc2's class hierarchy, 
+A presentation and accompanying code on how to use Scaladoc2 as a code exploration tool. The main example produces Graphviz diagrams of Scaladoc2's class hierarchy, 
 and are even used in the presentation itself. 
